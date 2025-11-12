@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'widgets/left_drawer.dart';
+import 'screens/product_form.dart';
 
 class AnchoraMallHome extends StatefulWidget {
   const AnchoraMallHome({super.key});
@@ -28,6 +30,7 @@ class _AnchoraMallHomeState extends State<AnchoraMallHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const LeftDrawer(),
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
@@ -114,7 +117,7 @@ class _AnchoraMallHomeState extends State<AnchoraMallHome> {
 
                 // Create Product Button
                 _buildProductButton(
-                  label: 'Create Product',
+                  label: 'Tambah Produk',
                   icon: Icons.add_circle_outline,
                   gradient: LinearGradient(
                     colors: [Colors.red.shade400, Colors.red.shade600],
@@ -122,7 +125,12 @@ class _AnchoraMallHomeState extends State<AnchoraMallHome> {
                     end: Alignment.bottomRight,
                   ),
                   onPressed: () {
-                    _showSnackbar('Kamu telah menekan tombol Create Product');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProductFormPage(),
+                      ),
+                    );
                   },
                 ),
               ],

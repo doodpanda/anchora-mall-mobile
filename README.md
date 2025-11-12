@@ -148,3 +148,121 @@ Navigator.pushNamed(context, '/all-products');
 Di proyek ini tombol masih menampilkan `SnackBar`. Untuk menambah navigasi, dapat mengganti callback `onPressed` tombol agar memanggil `Navigator` seperti contoh di atas.
 
 ---
+
+## Tugas 8: Implementasi Navigation, Layout, Form, dan Input Elements
+
+### 1. Perbedaan antara Navigator.push() dan Navigator.pushReplacement()
+
+**Navigator.push():**
+- Menambahkan halaman baru ke atas stack navigation
+- Halaman sebelumnya tetap tersimpan di memori dan dapat diakses kembali
+- Menampilkan tombol back otomatis di AppBar
+- Cocok untuk navigasi yang memungkinkan pengguna kembali ke halaman sebelumnya
+
+**Navigator.pushReplacement():**
+- Mengganti halaman saat ini dengan halaman baru
+- Halaman sebelumnya dihapus dari stack navigation
+- Tidak menampilkan tombol back
+- Cocok untuk navigasi satu arah seperti dari login ke homepage atau antar menu utama
+
+**Penggunaan dalam aplikasi Anchora Mall:**
+- `Navigator.push()` digunakan saat navigasi dari homepage ke form tambah produk, karena user mungkin ingin kembali ke homepage
+- `Navigator.pushReplacement()` digunakan di drawer untuk navigasi antar menu utama, agar tidak menumpuk halaman di stack
+
+### 2. Pemanfaatan Hierarchy Widget untuk Struktur Halaman Konsisten
+
+**Scaffold:**
+- Menyediakan kerangka dasar halaman dengan AppBar, body, drawer, dan floating action button
+- Memastikan konsistensi layout di seluruh aplikasi
+- Mengelola SnackBar dan dialog secara otomatis
+
+**AppBar:**
+- Header konsisten dengan title, gradient background, dan navigasi
+- Ikon hamburger otomatis muncul ketika drawer tersedia
+- Warna dan styling yang konsisten menggunakan tema aplikasi
+
+**Drawer:**
+- Menu navigasi samping yang konsisten di seluruh aplikasi
+- Menyediakan akses mudah ke semua halaman utama
+- Header dengan branding aplikasi yang konsisten
+
+Contoh implementasi:
+```dart
+Scaffold(
+  drawer: const LeftDrawer(), // Consistent navigation
+  appBar: AppBar(
+    // Consistent header styling
+    flexibleSpace: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.blue.shade700, Colors.blue.shade500],
+        ),
+      ),
+    ),
+  ),
+  body: // Page content
+)
+```
+
+### 3. Kelebihan Layout Widget untuk Form Elements
+
+**Padding:**
+- Memberikan ruang yang konsisten di sekitar elemen form
+- Memastikan form tidak menempel ke tepi layar
+- Meningkatkan readability dan user experience
+
+**SingleChildScrollView:**
+- Memungkinkan form di-scroll ketika konten melebihi tinggi layar
+- Mencegah overflow error pada device dengan layar kecil
+- Mempertahankan akses ke semua elemen form
+
+**ListView (dalam Drawer):**
+- Mengorganisir menu items secara vertikal
+- Automatic scrolling jika menu items terlalu banyak
+- Consistent spacing antar items
+
+Contoh penggunaan dalam aplikasi:
+```dart
+SingleChildScrollView(
+  padding: const EdgeInsets.all(16.0),
+  child: Column(
+    children: [
+      // Form fields dengan padding konsisten
+      _buildTextFormField(...),
+      const SizedBox(height: 20), // Consistent spacing
+      _buildTextFormField(...),
+    ],
+  ),
+)
+```
+
+### 4. Penyesuaian Warna Tema untuk Identitas Visual
+
+**Primary Color Scheme:**
+- Menggunakan gradient biru sebagai warna utama (Colors.blue.shade700 ke Colors.blue.shade500)
+- Konsisten di AppBar, drawer header, dan tombol utama
+
+**Secondary Colors:**
+- Hijau untuk menu "My Products" dan "All Products"
+- Merah untuk tombol "Tambah Produk"
+- Abu-abu untuk menu sekunder seperti Settings dan About
+
+**Material 3 Design:**
+- Menggunakan `useMaterial3: true` untuk adopsi design system terbaru
+- `ColorScheme.fromSeed(seedColor: Colors.blue)` untuk harmoni warna otomatis
+
+**Konsistensi Visual:**
+- Semua container menggunakan `BorderRadius.circular(16)` untuk rounded corners
+- BoxShadow dengan opacity rendah untuk depth yang subtle
+- White background dengan blue accent untuk clean look
+
+```dart
+theme: ThemeData(
+  useMaterial3: true,
+  colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+),
+```
+
+Implementasi ini memastikan aplikasi Anchora Mall memiliki identitas visual yang kuat dan konsisten di seluruh app.
+
+---
