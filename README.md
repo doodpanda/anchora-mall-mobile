@@ -352,8 +352,8 @@ final products = await request.get('http://localhost:8000/json/');
 
 | Aspek | http | CookieRequest |
 |-------|------|---------------|
-| Session Management | Tidak ada | ✅ Otomatis handle cookies |
-| Authentication | Manual header | ✅ Built-in Django auth |
+| Session Management | Tidak ada | Otomatis handle cookies |
+| Authentication | Manual header | Built-in Django auth |
 | Use Case | Public API, REST | Django session-based auth |
 | State | Stateless | Stateful |
 
@@ -493,15 +493,6 @@ CSRF_COOKIE_SECURE = True
 - App tidak bisa melakukan network requests sama sekali
 - Error: "SocketException: OS Error: Permission denied"
 
-**Summary Konsekuensi:**
-
-| Konfigurasi | Jika Tidak Dikonfigurasi |
-|-------------|--------------------------|
-| 10.0.2.2 in ALLOWED_HOSTS | Android emulator tidak bisa connect |
-| CORS | Flutter web diblokir browser |
-| SameSite/Cookie | Session tidak persist, logout otomatis |
-| Internet Permission | Android app tidak bisa network request |
-
 ### 5. Mekanisme Pengiriman Data dari Input hingga Ditampilkan
 
 **Flow Lengkap:**
@@ -522,8 +513,7 @@ ElevatedButton(
       String name = _nameController.text;
       String price = _priceController.text;
       String description = _descriptionController.text;
-      
-      // ... (lanjut ke step 2)
+
     }
   }
 )
@@ -838,7 +828,6 @@ ElevatedButton(
     final response = await request.logout(
       "http://localhost:8000/auth/logout/"
     );
-    // ... (lanjut step 2)
   }
 )
 ```
