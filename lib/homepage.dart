@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'widgets/left_drawer.dart';
-import 'screens/product_form.dart';
+import 'package:anchora_mall/widgets/left_drawer.dart';
+import 'package:anchora_mall/screens/product_form.dart';
+import 'package:anchora_mall/screens/product_entry_list.dart';
+import 'package:anchora_mall/screens/login.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class AnchoraMallHome extends StatefulWidget {
   const AnchoraMallHome({super.key});
@@ -95,7 +99,12 @@ class _AnchoraMallHomeState extends State<AnchoraMallHome> {
                     end: Alignment.bottomRight,
                   ),
                   onPressed: () {
-                    _showSnackbar('Kamu telah menekan tombol All Products');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProductEntryListPage(),
+                      ),
+                    );
                   },
                 ),
                 const SizedBox(height: 20),
@@ -110,7 +119,12 @@ class _AnchoraMallHomeState extends State<AnchoraMallHome> {
                     end: Alignment.bottomRight,
                   ),
                   onPressed: () {
-                    _showSnackbar('Kamu telah menekan tombol My Products');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProductEntryListPage(showMyProducts: true),
+                      ),
+                    );
                   },
                 ),
                 const SizedBox(height: 20),
@@ -131,6 +145,46 @@ class _AnchoraMallHomeState extends State<AnchoraMallHome> {
                         builder: (context) => const ProductFormPage(),
                       ),
                     );
+                  },
+                ),
+                const SizedBox(height: 20),
+
+                // Logout Button
+                _buildProductButton(
+                  label: 'Logout',
+                  icon: Icons.logout,
+                  gradient: LinearGradient(
+                    colors: [Colors.grey.shade400, Colors.grey.shade600],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  onPressed: () async {
+                    final request = context.read<CookieRequest>();
+                    // TODO: Replace the URL with your app's URL and don't forget to add a trailing slash (/)!
+                    // To connect Android emulator with Django on localhost, use URL http://10.0.2.2/
+                    // If you using chrome,  use URL http://localhost:8000
+                    
+                    final response = await request.logout(
+                        "http://localhost:8000/auth/logout/");
+                    String message = response["message"];
+                    if (context.mounted) {
+                        if (response['status']) {
+                            String uname = response["username"];
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("$message See you again, $uname."),
+                            ));
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => const LoginPage()),
+                            );
+                        } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(message),
+                                ),
+                            );
+                        }
+                    }
                   },
                 ),
               ],

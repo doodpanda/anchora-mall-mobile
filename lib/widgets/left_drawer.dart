@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../homepage.dart';
-import '../screens/product_form.dart';
+import 'package:anchora_mall/homepage.dart';
+import 'package:anchora_mall/screens/product_form.dart';
+import 'package:anchora_mall/screens/product_entry_list.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -83,12 +84,10 @@ class LeftDrawer extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             onTap: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('All Products feature coming soon...'),
-                  duration: Duration(milliseconds: 1500),
-                ),
+              // Navigate to product list page
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProductEntryListPage()),
               );
             },
           ),
@@ -99,12 +98,10 @@ class LeftDrawer extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             onTap: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('My Products feature coming soon...'),
-                  duration: Duration(milliseconds: 1500),
-                ),
+              // Navigate to product list page (filtered by user)
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProductEntryListPage(showMyProducts: true)),
               );
             },
           ),
